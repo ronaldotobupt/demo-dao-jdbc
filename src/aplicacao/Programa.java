@@ -11,10 +11,9 @@ public class Programa {
 
 	public static void main(String[] args) {
 		
-		Departamento obj = new Departamento(1,"Livros");
-		Vendedores vendedores = new Vendedores(21,"Bob","bob@gmail.com",new Date(),3000.0,obj);
-		
 		VendedoresDao vendedoresDao = FabricaDeDAO.createVendedoresDao();
+		
+		Vendedores vendedores = vendedoresDao.findById(3);
 		
 		System.out.println(vendedores);
 
