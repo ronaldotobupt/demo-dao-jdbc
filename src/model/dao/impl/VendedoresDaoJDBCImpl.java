@@ -62,17 +62,8 @@ public class VendedoresDaoJDBCImpl implements VendedoresDao {
 			//Criando um objeto com os dados consultados no banco
 			if(rs.next())//Testando se houve resultado 
 			{
-				Departamento dep = new Departamento();
-				dep.setId(rs.getInt("DepartmentId"));
-				dep.setNome(rs.getString("DepName"));
-				
-				Vendedores obj = new Vendedores();
-				obj.setId(rs.getInt("Id"));
-				obj.setNome(rs.getString("Name"));
-				obj.setEmail(rs.getString("Email"));
-				obj.setSalarioBase(rs.getDouble("BaseSalary"));
-				obj.setDataAniversario(rs.getDate("BirthDate"));
-				obj.setDepartamento(dep);
+				Departamento dep = instanciarDepartamento(rs);
+				Vendedores obj = instanciarVendedores(rs,dep);
 				return obj;
 			}
 			return null; // Retornando null se não encontrar nenhum vendedor
@@ -86,6 +77,28 @@ public class VendedoresDaoJDBCImpl implements VendedoresDao {
 		}
 		
 	}
+
+	private Vendedores instanciarVendedores(ResultSet rs, Departamento dep) throws SQLException {
+		Vendedores obj = new Vendedores();
+		obj.setId(rs.getInt("Id"));
+		obj.setNome(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setSalarioBase(rs.getDouble("BaseSalary"));
+		obj.setDataAniversario(rs.getDate("BirthDate"));
+		obj.setDepartamento(dep);
+		return obj;
+	}
+
+
+
+	private Departamento instanciarDepartamento(ResultSet rs) throws SQLException {
+		Departamento dep = new Departamento();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setNome(rs.getString("DepName"));
+		return dep;
+	}
+
+
 
 	@Override
 	public List<Vendedores> findAll() {
