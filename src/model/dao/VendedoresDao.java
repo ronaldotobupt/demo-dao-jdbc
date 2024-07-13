@@ -2,6 +2,7 @@ package model.dao;
 
 import java.util.List;
 
+import model.entindade.Departamento;
 import model.entindade.Vendedores;
 
 public interface VendedoresDao {
@@ -18,9 +19,13 @@ public interface VendedoresDao {
 		//Metodo para pesquisar um Vendedores no banco de dados pelo ID
 		Vendedores findById(Integer id);
 		
-		//Metodo para retornar todos os Vendedoress do banco de dados
+		//Metodo para retornar todos os Vendedores do banco de dados
 		//É criado uma lista com todos os Vendedores
 		List<Vendedores> findAll();
+		
+		//Metodo para retornar Vendedores por departamento
+		List<Vendedores> findAll(Departamento departamento);
+		
 	
 
 }
