@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mysql.cj.xdevapi.Statement;
+
 import db.DB;
 import db.DbException;
 import model.dao.VendedoresDao;
@@ -28,7 +30,47 @@ public class VendedoresDaoJDBCImpl implements VendedoresDao {
 	
 	@Override
 	public void insert(Vendedores obj) {
-		// TODO Auto-generated method stub
+		
+		//Meteodo para inserir dados
+		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO seller "
+					+
+					"(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+
+					"VALUES "
+					+
+					"(?, ?, ?, ?, ?) " ,
+					java.sql.Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, obj.getNome());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getDataAniversario().getTime()));
+			st.setDouble(4, obj.getSalarioBase());
+			st.setInt(5, obj.getDepartamento().getId());
+			
+			int linhasinseridas = st.executeUpdate();
+			
+			if(linhasinseridas > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if(rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(rs);
+			}
+			else {
+				throw new DbException("Erro inesperado! Nenhum cadastro relizado");
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 		
 	}
 

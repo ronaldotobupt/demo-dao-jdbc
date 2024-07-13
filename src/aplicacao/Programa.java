@@ -1,9 +1,11 @@
 package aplicacao;
 
+import java.util.Date;
 import java.util.List;
 
 import model.dao.FabricaDeDAO;
 import model.dao.VendedoresDao;
+import model.dao.impl.VendedoresDaoJDBCImpl;
 import model.entindade.Departamento;
 import model.entindade.Vendedores;
 
@@ -31,6 +33,10 @@ public class Programa {
 			System.out.println(vendedoreslista);
 		}
 		
+		System.out.println("\n===Teste 4 - Inserindo Vendedores===");
+		Vendedores novoVendedor = new Vendedores(null,"Greg","greg@gmail.com",new Date(), 4000.0, departamento);
+		vendedoresDao.insert(novoVendedor);
+		System.out.println("\n Inserido! Novo id: " + novoVendedor.getId());
 
 	}
 
