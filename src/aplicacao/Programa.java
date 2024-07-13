@@ -38,6 +38,12 @@ public class Programa {
 		vendedoresDao.insert(novoVendedor);
 		System.out.println("\n Inserido! Novo id: " + novoVendedor.getId());
 
+		System.out.println("\n===Teste 5 - Atualizando Vendedores===");
+		vendedores = vendedoresDao.findById(1);
+		vendedores.setNome("Matha Waine");
+		vendedoresDao.update(vendedores);
+		System.out.println("Atualização completa!");
+		
 	}
 
 }
