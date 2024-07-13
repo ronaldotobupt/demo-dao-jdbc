@@ -25,6 +25,12 @@ public class Programa {
 		}
 		
 		
+		System.out.println("\n===Teste 3 - Pesquisa retornando todos os Vendedores===");
+		listavendedores = vendedoresDao.findAll();
+		for(Vendedores vendedoreslista : listavendedores) {
+			System.out.println(vendedoreslista);
+		}
+		
 
 	}
 

@@ -105,8 +105,54 @@ public class VendedoresDaoJDBCImpl implements VendedoresDao {
 
 	@Override
 	public List<Vendedores> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName "
+					+
+					"FROM seller INNER JOIN department "
+					+
+					"ON seller.DepartmentId = department.Id "
+					+
+					"Order By Name");
+			
+			rs = st.executeQuery();
+			
+			//Criando uma lista para armazenar os vendedores por departamento
+			List<Vendedores> listavendedores = new ArrayList<>();
+			
+			//Solução para criar uma lista com 1 departamento com vários vendedores
+			
+			//Usando comando Map para controlar a instanciação de departamento
+			Map<Integer, Departamento> mapdepartamento = new HashMap<>();
+			
+			//Criando um objeto com os dados consultados no banco
+			while(rs.next())//Percorrendo o result set enquanto houver valor 
+			{
+				
+				//Testando se o dapartamento já foi instanciado
+				Departamento dep = mapdepartamento.get(rs.getInt("DepartmentId"));//Se o departamento não existir irá retornar null
+				
+				//Instanciando o departamento caso ainda não exista
+				if(dep == null) 
+					{
+						dep = instanciarDepartamento(rs);//Intanciando o departamento
+						mapdepartamento.put(rs.getInt("DepartmentId"), dep);//Salvando o departamento instanciado na estrura map, no próximo while irá identificar que já existe
+					}
+				Vendedores obj = instanciarVendedores(rs,dep);
+				listavendedores.add(obj);//Adicionando os vendedores na lista
+			}
+			return listavendedores; // Retornando a lista de vendedores por departamento
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 
