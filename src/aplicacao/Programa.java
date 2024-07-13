@@ -2,16 +2,18 @@ package aplicacao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import model.dao.FabricaDeDAO;
 import model.dao.VendedoresDao;
-import model.dao.impl.VendedoresDaoJDBCImpl;
 import model.entindade.Departamento;
 import model.entindade.Vendedores;
 
 public class Programa {
 
 	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
 		
 		VendedoresDao vendedoresDao = FabricaDeDAO.createVendedoresDao();
 		
@@ -43,6 +45,12 @@ public class Programa {
 		vendedores.setNome("Matha Waine");
 		vendedoresDao.update(vendedores);
 		System.out.println("Atualização completa!");
+		
+		System.out.println("\n===Teste 6 - Apagando Vendedores===");
+		System.out.println("Informe o Id para deleção: ");
+		int id = sc.nextInt();
+		vendedoresDao.deleteById(id);
+		System.out.println("Dados apagados!");
 		
 	}
 
