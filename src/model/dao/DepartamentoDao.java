@@ -21,5 +21,7 @@ public interface DepartamentoDao {
 	//Metodo para retornar todos os Departamentos do banco de dados
 	//É criado uma lista com todos os departamentos
 	List<Departamento> findAll();
+	
+	
 
 }
